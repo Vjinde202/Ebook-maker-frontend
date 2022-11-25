@@ -1,0 +1,12 @@
+form{
+    background-color: blanchedalmond;
+}
+.radio-container1{
+    display: inline-flex;
+    margin-left: 40px;
+  }
+  .radio-container2{
+    display: inline-flex;
+    margin-left: 40px;
+   
+  }

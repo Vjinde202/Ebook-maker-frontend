@@ -1,0 +1,19 @@
+
+.home{
+    width: max-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+}
+.home img{
+    border-radius: 20px;
+    margin-top: 15%;
+    width: 100%;
+    height: 60vh;
+    margin-left: 15%;
+}
+.home h1{
+    font-weight: bolder;
+    font-size: 50px;
+}

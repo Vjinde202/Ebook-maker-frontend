@@ -1,0 +1,20 @@
+<h2>User List</h2>
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Book Id</th>
+            <th>Book Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let request of req">
+            <td>{{request.Username}}</td>
+            <td>{{request.bookId}}</td>
+            <td>{{request.bookTitle}}</td>
+            <td><button (click)="click(request.bookId)" [disabled]="isDisabled">Accept</button></td>
+            <td><button (click)="reject(request.bookId)">Reject</button></td>
+
+        </tr>
+    </tbody>
+</table>

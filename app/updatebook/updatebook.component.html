@@ -1,0 +1,53 @@
+<div class="col-md-6 offset-md-3">
+  <h1>Book Details</h1>
+<form (ngSubmit)="onSubmit()">
+
+  
+
+          <div class="form-group">
+            <label><b>BookTitle<br></b></label>
+            <input type="text" [(ngModel)]="book.bookTitle"   name="booktitle" id="booktitle" required>
+          </div>
+
+  
+   
+          <div class="form-group">
+            <label><b>BookDescription</b></label>
+            <input type="text"  [(ngModel)]="book.bookDescription"  name="bookdescription" id="bookdescription" required>
+          </div>
+          
+
+  
+  
+
+ 
+    
+    <p><b>Status</b></p>
+    <div class="radio-container1">
+      <label for="bookstatus">Pending</label>
+      <input class="form-check-input" value="Pending" type="radio" [(ngModel)]="book.status" 
+      name="flexRadioDefault" id="flexRadioDefault1">
+      
+    </div>
+    <div class="radio-container2">
+      <label for="bookstatus">Complete</label>
+      <input class="form-check-input" type="radio" value="Complete" [(ngModel)]="book.status" name="flexRadioDefault" id="flexRadioDefault2" checked>
+    </div>
+    
+    <div class="col-8">
+      <b>Upload File</b>
+      <label class="btn btn-default p-0">
+        <input type="file" (change)="selectFile($event)" />
+      </label>
+    </div>
+    <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>
+    
+  
+    
+<div class="form-group">
+    <button class="btn btn-primary" type="submit" [disabled]="!selectedFile">UPDATE</button>
+  </div>
+  
+</form>
+  
+  </div>

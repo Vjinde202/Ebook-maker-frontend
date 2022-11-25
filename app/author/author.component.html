@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<div class="grid-container">
+    <div class="grid-element" *ngFor="let book of Books">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+            <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+          </svg>
+          <div>
+            <h5>{{book.bookTitle}}</h5>
+            <div class="Description"><b>Description:</b>{{book.bookDescription}}</div>
+            <p><b>Status:</b>{{book.status}}</p>
+           <button (click)="request(book.bookId,book.bookTitle)" class="btn btn-primary">Download</button>
+           <button (click)="updateBook(book.bookId)" class="btn btn-info">Update</button>
+          </div>
+    </div>
+</div>
+<div class="button-box">
+  <div class="button-Container1">
+    <button (click)="showDownloads()">download files</button>
+  </div>
+  
+  <div class="button-Container2">
+      <button (click)="showForm()" *ngIf="!BookUpload">Upload Book</button>
+  </div>
+</div>
+
+<div class="requests" *ngIf="isRequested">
+  <ul *ngFor="let links of res">
+    <li><a href="javascript:void(0)" (click)="downloadFile(links.downloadUrl,links.bookTitle)">{{links.bookTitle}}</a></li>
+  </ul>
+  <button (click)="closeDownloads()">close</button>
+</div>
+
+
+
+<!--<form action="/action_page.php" (ngSubmit)="upload()" *ngIf="BookUpload">
+    <div class="container">
+      <h1>Book Details</h1>
+      
+      <hr>
+  
+      <label for="booktitle"><b>BookTitle</b></label>
+      <input type="text" [(ngModel)]="book.bookTitle"  placeholder="Enter BookTitle" name="booktitle" id="psw" required>
+  
+      <label for="bookdescription"><b>BookDescription</b></label>
+      <input type="text" placeholder="Enter BookDescription" [(ngModel)]="book.bookDescription"  name="bookdescription" id="bookdescription" required>
+      
+      <label for="filename"><b>FileName</b></label>
+      <input type="text" placeholder="Enter FileName" [(ngModel)]="book.fileName"  name="fileName" id="fileName" required>
+      
+      <p><b>Status</b></p>
+      <div class="radio-container1">
+        <label for="bookstatus">Pending</label>
+        <input class="form-check-input" value="Pending" type="radio" [(ngModel)]="book.status" name="flexRadioDefault" id="flexRadioDefault1">
+      </div>
+      <div class="radio-container2">
+        <label for="bookstatus">Complete</label>
+        <input class="form-check-input" type="radio" value="Complete" [(ngModel)]="book.status" name="flexRadioDefault" id="flexRadioDefault2" checked>
+      </div>
+      <p><b>Upload File</b></p>
+      <div class="col-8">
+        <label class="btn btn-default p-0">
+          <input type="file" (change)="selectFile($event)" />
+        </label>
+      </div>
+      <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>
+      
+      
+      
+      <hr>
+      
+  
+      <button type="submit" class="registerbtn" [disabled]="!selectedFile">UPLOAD</button>
+      <button class="cancelbtn" (click)="closeForm()">CANCEL</button>
+    </div>
+    
+    
+  </form>-->
+  <form action="/action_page.php" (ngSubmit)="upload()" *ngIf="BookUpload" #f="ngForm" >
+  
+
+    <div class="col-md-6 offset-md-3">
+      <h1>Book Details</h1>
+  
+      <div class="form-group">
+        
+  
+   
+          <label> Book Title</label>
+          <input type="text" id="name" placeholder="enter Book" name="name" class="form-control"
+      required minlength="6" appForbiddenName="bob"
+      [(ngModel)]="book.bookTitle" #name="ngModel">
+  
+                       <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                           class="alert-danger">
+  
+                                 <div *ngIf="name.errors?.['required']">
+                                                    ***Name is required.
+                                </div>
+                                      <div *ngIf="name.errors?.['minlength']">
+                                                ***Name must be at least 6 characters long.
+                                        </div>
+                                    <div *ngIf="name.errors?.['forbiddenName']">
+                                          ***Name cannot be Bob.
+                                      </div>
+  
+                     </div>
+              </div>
+  
+      
+       
+      <div class="form-group">
+    
+        <label> Book Description</label>
+        <input type="text" id="name" placeholder="enter Book Description" name="name" class="form-control"
+      required minlength="6" appForbiddenName="bob"
+      [(ngModel)]="book.bookDescription" #name="ngModel">
+  
+                       <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                           class="alert-danger">
+  
+                                 <div *ngIf="name.errors?.['required']">
+                                                   <span>***Please provide Description of Book.</span> 
+                                </div>
+                                      <div *ngIf="name.errors?.['minlength']">
+                                                ***Name must be at least 6 characters long.
+                                        </div>
+                                    <div *ngIf="name.errors?.['forbiddenName']">
+                                          ***Name cannot be Bob.
+                                      </div>
+  
+                     </div>
+              </div>
+      
+      
+  
+      
+        
+        <p><b>Status</b></p>
+        <div class="radio-container1">
+          <label for="bookstatus">Pending</label>
+          <input class="form-check-input" value="Pending" type="radio" [(ngModel)]="book.status" 
+          name="flexRadioDefault" id="flexRadioDefault1">
+          
+        </div>
+        <div class="radio-container2">
+          <label for="bookstatus">Complete</label>
+          <input class="form-check-input" type="radio" value="Complete" [(ngModel)]="book.status" name="flexRadioDefault" id="flexRadioDefault2" checked>
+        </div>
+        
+        <div class="col-8">
+          <b>Upload File</b>
+          <label class="btn btn-default p-0">
+            <input type="file" (change)="selectFile($event)" />
+          </label>
+        </div>
+        <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>
+        
+      
+        
+    <div class="form-group">
+       
+      <button class="btn btn-primary" type="submit" [disabled]="!selectedFile">UPLOAD</button>
+      </div>
+      <div clas="form-group">
+        <button class="btn btn-danger" (click)="closeForm()">CANCEL</button>
+      </div>
+        
+      
+      </div>
+      
+    </form>
+  
+
+
+
+
+</body>
+
+</html>
+
